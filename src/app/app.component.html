@@ -1,3 +1,10 @@
-<h1>
-  {{title}}
-</h1>
+<div> {{ (af.auth | async)?.uid }} </div>
+<button (click)="login()">Login</button>
+<button (click)="logout()">Logout</button>
+<br/>
+<app-item></app-item>
+<br/>
+<app-items></app-items>
+<br/>
+<app-items-query></app-items-query>
+<br/>
