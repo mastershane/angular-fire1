@@ -7,6 +7,11 @@ import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
 import { ItemComponent } from './item/item.component';
 import { ItemsComponent } from './items/items.component';
 import { ItemsQueryComponent } from './items-query/items-query.component';
+import { LeaderBoardComponent } from './leader-board/leader-board.component';
+import { RouterModule, Routes } from '@angular/router';
+import { PublicGoalsComponent } from './public-goals/public-goals.component';
+import { EventsComponent } from './events/events.component';
+import { PrivateGoalsComponent } from './private-goals/private-goals.component';
 
 // Must export the config
 export const firebaseConfig = {
@@ -22,18 +27,50 @@ const myFirebaseAuthConfig = {
   method: AuthMethods.Redirect
 };
 
+const appRoutes: Routes = [
+  { 
+    path: 'item', 
+    component: ItemComponent 
+  },
+  {
+    path: 'items',
+    component: ItemsComponent,
+    data: { title: 'Heroes List' }
+  },
+  {
+    path: 'leaderboard',
+    component: LeaderBoardComponent,
+    data: { title: 'Leader Board' }
+  },
+  {
+    path: 'publicgoals',
+    component: PublicGoalsComponent,
+    data: { title: 'Public Goals' }
+  },
+  {
+    path: 'privategoals',
+    component: PrivateGoalsComponent,
+    data: { title: 'Private Goals' }
+  }
+];
+
 @NgModule({
   declarations: [
     AppComponent,
     ItemComponent,
     ItemsComponent,
-    ItemsQueryComponent
+    ItemsQueryComponent,
+    LeaderBoardComponent,
+    PublicGoalsComponent,
+    EventsComponent,
+    PrivateGoalsComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
-    AngularFireModule.initializeApp(firebaseConfig, myFirebaseAuthConfig)
+    AngularFireModule.initializeApp(firebaseConfig, myFirebaseAuthConfig),
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [],
   bootstrap: [AppComponent]

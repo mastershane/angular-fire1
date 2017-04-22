@@ -7,9 +7,7 @@ import { AngularFire, FirebaseObjectObservable } from 'angularfire2';
   styleUrls: ['./item.component.css']
 })
 export class ItemComponent implements OnInit {
-
-
-
+  
   item: FirebaseObjectObservable<any>;
   constructor(af: AngularFire) {
     this.item = af.database.object('/item');

@@ -1,0 +1,11 @@
+<ul>
+  <li *ngFor="let publicGoal of publicGoals | async">
+    <input type="text" #updatetext [value]="publicGoal.name" />
+    <input type="number" #updatetext [value]="publicGoal.points" />
+    <button (click)="updateItem(publicGoal.$key, updatetext.value)">Update</button>
+    <button (click)="deleteItem(publicGoal.$key)">Delete</button>
+  </li>
+</ul>
+<input type="text" #newPublicGoalName />
+<input type="number" #newPublicGoalPoints />
+<button (click)="addPublicGoal(newPublicGoalName.value, newPublicGoalPoints.value)">Add</button>
