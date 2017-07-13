@@ -1,0 +1,37 @@
+<h2>{{(event | async)?.name}}</h2>
+<input type="text" #newname placeholder="Name" />
+<button (click)="save(newname.value)">Set Name</button>
+<br />
+<h3>Event Players</h3>
+<ul>
+  <li *ngFor="let player of eventPlayers | async">
+    <span>{{player.player?.name}}</span>
+  </li>
+</ul>
+
+<h3>All Players</h3>
+<ul>
+  <li *ngFor="let player of players | async">
+    <span>{{player.name}}</span>
+    <button (click)="addPlayerToEvent(player.$key)">Add</button>
+  </li>
+</ul>
+
+ <button (click)="initializeEvent()">Initialize Event</button>
+
+<h3>Public Goals</h3>
+<ul>
+  <li *ngFor="let pg of publicGoals | async">
+    <span>{{pg.text}}</span>
+  </li>
+</ul>
+
+
+<h3>Private Goals</h3>
+<ul>
+  <li *ngFor="let pg of privateGoals | async">
+    <span>{{pg.text}}</span>
+  </li>
+</ul> 
+
+<button (click)="delete()">Delete</button>

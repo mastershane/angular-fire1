@@ -11,7 +11,10 @@ import { LeaderBoardComponent } from './leader-board/leader-board.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PublicGoalsComponent } from './public-goals/public-goals.component';
 import { EventsComponent } from './events/events.component';
+import { EventComponent } from './event/event.component';
+import { PlayersComponent} from './players/players.component';
 import { PrivateGoalsComponent } from './private-goals/private-goals.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Must export the config
 export const firebaseConfig = {
@@ -28,6 +31,7 @@ const myFirebaseAuthConfig = {
 };
 
 const appRoutes: Routes = [
+  { path: '', redirectTo: '/leaderboard', pathMatch: 'full' },
   { 
     path: 'item', 
     component: ItemComponent 
@@ -51,7 +55,22 @@ const appRoutes: Routes = [
     path: 'privategoals',
     component: PrivateGoalsComponent,
     data: { title: 'Private Goals' }
-  }
+  },
+  {
+    path: 'events',
+    component: EventsComponent,
+    data: {title: 'Events'}
+  },
+  {
+    path:'event/:id',
+    component:EventComponent,
+    data: {title: 'Event'}
+  },
+  {
+    path: 'players',
+    component: PlayersComponent,
+    data: {title: 'Players'}
+  },
 ];
 
 @NgModule({
@@ -63,14 +82,17 @@ const appRoutes: Routes = [
     LeaderBoardComponent,
     PublicGoalsComponent,
     EventsComponent,
-    PrivateGoalsComponent
+    EventComponent,
+    PrivateGoalsComponent,
+    PlayersComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     AngularFireModule.initializeApp(firebaseConfig, myFirebaseAuthConfig),
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    NgbModule.forRoot(), // Add Bootstrap module here.
   ],
   providers: [],
   bootstrap: [AppComponent]

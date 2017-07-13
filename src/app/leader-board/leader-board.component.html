@@ -1,14 +1,20 @@
-  <ul>
-    <li *ngFor="let player of players | async">
-      {{player | json}}
-        <input  type="text" #updatetext [value]="player.player?.name" />
-        <button (click)="updatePlayerName(player.eventPlayer.$key, updatetext.value)">Update</button>
-    </li>
-  </ul>
-  <ul>
-    <li *ngFor="let player of playersSrc | async">
-      {{player | json}}
-    </li>
-  </ul>
-  <input type="text" #newPlayer />
-  <button (click)="addPlayer(newPlayer.value)">Add</button>
+<div class="container" >
+  <div class="jumbotron">
+    <h1>Leader Board</h1>
+  </div>
+
+<ul>
+  <li *ngFor="let player of players | async">
+    {{player | json}}
+      <input  type="text" #updatetext [value]="player.player?.name" />
+      <button (click)="updatePlayerName(player.eventPlayer.$key, updatetext.value)">Update</button>
+  </li>
+</ul>
+<ul>
+  <li *ngFor="let player of playersSrc | async">
+    {{player | json}}
+  </li>
+</ul>
+<input type="text" #newPlayer />
+<button (click)="addPlayer(newPlayer.value)">Add</button>
+</div>

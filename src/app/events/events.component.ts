@@ -14,7 +14,7 @@ export class EventsComponent implements OnInit {
     this.events = af.database.list('/events');
   }
   addEvent(newName: string) {
-    this.events.push({ text: newName });
+    this.events.push({ name: newName });
   }
 
   ngOnInit() {

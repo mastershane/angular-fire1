@@ -1,3 +1,7 @@
-<p>
-  events works!
-</p>
+<ul>
+  <li *ngFor="let event of events | async">
+    <a routerLink="/event/{{event.$key}}">{{event.name}}</a>
+  </li>
+</ul>
+<input type="text" #newEventName />
+<button (click)="addEvent(newEventName.value)">Add</button>
