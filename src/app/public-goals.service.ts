@@ -16,4 +16,8 @@ export class PublicGoalsService {
     return this.af.database.list("/public-goals");
   }
 
+  // getPublicGoalsForPlayer(playerId: string, eventId: string){
+  //   return this.af.database('event/' + eventId + '/players/' + playerId/)
+  // }
+
 }

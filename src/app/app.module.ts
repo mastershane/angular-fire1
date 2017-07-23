@@ -14,6 +14,7 @@ import { EventsComponent } from './events/events.component';
 import { EventComponent } from './event/event.component';
 import { PlayersComponent} from './players/players.component';
 import { PrivateGoalsComponent } from './private-goals/private-goals.component';
+import { MyGoalsComponent } from './my-goals/my-goals.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Must export the config
@@ -71,6 +72,11 @@ const appRoutes: Routes = [
     component: PlayersComponent,
     data: {title: 'Players'}
   },
+  {
+    path: 'mygoals',
+    component: MyGoalsComponent,
+    data: {title: 'Goals'}
+  }, 
 ];
 
 @NgModule({
@@ -84,7 +90,8 @@ const appRoutes: Routes = [
     EventsComponent,
     EventComponent,
     PrivateGoalsComponent,
-    PlayersComponent
+    PlayersComponent,
+    MyGoalsComponent
   ],
   imports: [
     BrowserModule,
