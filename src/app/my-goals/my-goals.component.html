@@ -1,5 +1,17 @@
+ <h2>Player: {{(eventPlayer |async )?.name}} Score: {{(eventPlayer |async )?.score}}</h2>
+ <ul>
+  <li *ngFor="let goal of (eventPlayer | async )?.privateGoals">
+    Goal {{goal.text}} Points: {{goal.pointValue}}
+    <button [hidden]="goal.isComplete" (click)="setGoalToComplete(goal)">Complete</button>
+  </li>
+</ul>
+
 <p>
   {{activeEvent | async | json}}
 </p>
 <pre>{{eventPlayer | async | json}}</pre>
 <a routerLink="/drawgoals" >Draw Goals</a>
+
+<!-- <p>
+  {{activeEvent | async | json}}
+</p> -->

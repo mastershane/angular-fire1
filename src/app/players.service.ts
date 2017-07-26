@@ -22,16 +22,35 @@ export class PlayersService {
         eventPlayerVm.player = p;
         eventPlayerVm.name = p.name;
       });
-      if(eventPlayer.privateGoals != null){
-        eventPlayer.privateGoals.forEach(playerGoal => {
-          //This makes round trip for each player goal I think.  This could be faster if we just got them all maybe??
-          this.af.database.object('/events/' + eventId + '/private-goals/' + playerGoal.$id).subscribe(eventGoal =>{
-            let goalVm : GoalVm;
-            goalVm.text = eventGoal.text;
-            goalVm.isComplete = playerGoal.isComplete;
-            goalVm.pointValue = eventGoal.pointValue;
-            eventPlayerVm.privateGoals.push(goalVm);
-          })
+      if(eventPlayer["private-goals"] != null){
+        Object.keys(eventPlayer["private-goals"]).forEach(key =>
+        {
+            var playerGoal =  eventPlayer["private-goals"][key];
+            //This makes round trip for each player goal I think.  This could be faster if we just got them all maybe??
+            this.af.database.object('/events/' + eventId + '/private-goals/' + key).subscribe(eventGoal =>{
+              let goalVm = new GoalVm;
+              goalVm.text = eventGoal.text;
+              goalVm.isComplete = playerGoal.isComplete;
+              goalVm.pointValue = eventGoal.pointValue;
+              goalVm.id = key;
+              eventPlayerVm.privateGoals.push(goalVm);
+            })
+        });
+      }
+      //these are really only the public goals that are complete.
+      if(eventPlayer["public-goals"] != null){
+        Object.keys(eventPlayer["public-goals"]).forEach(key =>
+        {
+            var playerGoal =  eventPlayer["public-goals"][key];
+            //This makes round trip for each player goal I think.  This might be faster if we just got them all.
+            this.af.database.object('/events/' + eventId + '/public-goals/' + key).subscribe(eventGoal =>{
+              let goalVm = new GoalVm;
+              goalVm.text = eventGoal.text;
+              goalVm.isComplete = playerGoal.isComplete;
+              goalVm.pointValue = eventGoal.pointValue;
+              goalVm.id = key;
+              eventPlayerVm.publicGoals.push(goalVm);
+            })
         });
       }
 

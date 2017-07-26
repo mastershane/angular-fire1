@@ -30,7 +30,7 @@ export class DrawGoalsComponent implements OnInit {
             var goalsRef = af.database.list('/events/' + this.currentEventId + "/private-goals");    
             privateGoals.forEach(g => {            
                 var playerGoal = af.database.object('/events/' + this.currentEventId +"/players/" + this.playerId + "/private-goals/" + g.$key);
-                playerGoal.set({isComplete : 0, inLimbo: 1 });
+                playerGoal.set({isComplete : false, inLimbo: true });
                 g.isDrawn = true;
                 g.sequence = g.sequence + 1000;
                 goalsRef.update(g.$key, g);

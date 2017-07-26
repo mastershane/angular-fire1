@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
+import { PublicGoalVm}from './models/publicGoalVm';
 import "rxjs";
 
 @Injectable()
@@ -16,7 +17,8 @@ export class EventService {
 
         goalRef.set({
           isComplete:false,
-          text:pg.name || pg.text//Might want to do replacement on this too.
+          text:pg.name || pg.text,//Might want to do replacement on this too.
+          pointValue: pg.points
          });        
       });
     });
@@ -34,7 +36,8 @@ export class EventService {
           isComplete:false,
           text:text,
           isDrawn: false,
-          sequence:Math.floor(Math.random() * (100))
+          sequence:Math.floor(Math.random() * (100)),
+          pointValue:pg.points
         })
       })
     })
@@ -84,18 +87,50 @@ export class EventService {
     var eventPG = this.af.database.object('/events/' + eventId + "/private-goals/" + privateGoalId);
     eventPG.take(1).subscribe(g => {
       g.isDrawn = false;
-      g.sequence = g.sequence -900//put on bottom of deck basically. Maybe just get the max sequence and add 1.
+      g.sequence = g.sequence -900//put on bottom of deck basically above the cards that are currently in peoples hands.
       eventPG.set(g);
     });
   }
 
+  setPrivateGoalToComplete(privateGoalId : string, playerId: string, eventId: string, pointValue:number) {
+    var scoreRef = this.af.database.object('/events/' + eventId +"/players/" + playerId + "/score");
+    scoreRef.take(1).subscribe(score => {
+      scoreRef.set(pointValue + Number.parseInt(score.$value))
+    });
+    this.af.database.object('/events/' + eventId +"/players/" + playerId + "/private-goals/" + privateGoalId + '/isComplete').set(true);
+  }
 
+  getEventPublicGoalVms(eventId: string){
+    return this.af.database.list('/events/' + eventId + '/public-goals').map(goals =>{
+      return goals.map(goal => {
+        let goalVm = new PublicGoalVm();
+        goalVm.isComplete = goal.isComplete;
+        goalVm.pointValue = goal.pointValue;
+        goalVm.text = goal.text;
+        goalVm.id = goal.$key;
+        this.af.database.object('/players/' + goal.playerId).subscribe(p => {
+          goalVm.completedPlayerName = p.name;
+        });
+        return goalVm;
+      });
+    });
+  }
 
+  setPublicGoalToComplete(publicGoalId : string, playerId: string, eventId: string, pointValue:number) {
+    var scoreRef = this.af.database.object('/events/' + eventId +"/players/" + playerId + "/score");
+    scoreRef.take(1).subscribe(score => {
+      scoreRef.set(pointValue + Number.parseInt(score.$value))
+    });
+    var playerPublicGoalsRef = this.af.database.object('/events/' + eventId +"/players/" + playerId + "/public-goals/" + publicGoalId)
+    playerPublicGoalsRef.set(0);
+    var publicGoal = this.af.database.object('/events/' + eventId + "/public-goals/" + publicGoalId);
+    publicGoal.take(1).subscribe(g => {
+      g.isComplete = true;
+      g.playerId = playerId;
+      publicGoal.set(g);
+    });
+  }
 
   //need method to lock event.
-
-
-
-
 
 }

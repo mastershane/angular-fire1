@@ -16,6 +16,7 @@ import { PlayersComponent} from './players/players.component';
 import { PrivateGoalsComponent } from './private-goals/private-goals.component';
 import { MyGoalsComponent } from './my-goals/my-goals.component';
 import { DrawGoalsComponent } from './draw-goals/draw-goals.component';
+import { EventPublicGoalsComponent } from './event-public-goals/event-public-goals.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 // Must export the config
@@ -83,6 +84,11 @@ const appRoutes: Routes = [
     component: DrawGoalsComponent,
     data: {title: 'Draw'}
   }, 
+  {
+    path: 'eventpublicgoals',
+    component: EventPublicGoalsComponent,
+    data: {title: 'Public Goals'}
+  }, 
 ];
 
 @NgModule({
@@ -98,7 +104,8 @@ const appRoutes: Routes = [
     PrivateGoalsComponent,
     PlayersComponent,
     MyGoalsComponent,
-    DrawGoalsComponent
+    DrawGoalsComponent,
+    EventPublicGoalsComponent
   ],
   imports: [
     BrowserModule,

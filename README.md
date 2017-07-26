@@ -31,24 +31,11 @@ Run `ng github-pages:deploy` to deploy to GitHub Pages.
 To get more help on the `angular-cli` use `ng help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 Todo:
-    Associate users to players.
-    Events List Page (AddEvent)
-    Event edit page.
-        Generate Event goals (public and private)
-            When generating randomize the order and always draw goals in that order.
-            Generate player name replacements here?
-    My goals page
-    Draw goals page.
-    Event public Goals Viewer
-    Event player private goals.(probably get here from clicking on player in leaderboard.)
-    Name and Value replacements.
+    Create New player (and event player) when user logs in.
     Admin level access on players.
     Only show event goals and player edit pages in admin.
-
-Questions:
-    -How do I 
-
-
+    Make the leader board read only.
+    Style Everything.
 
 Database structure
 
