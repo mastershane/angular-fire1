@@ -64,7 +64,7 @@ export class PlayersService {
   }
 
   _getEventPlayer(eventId : string, playerId: string){
-    return this.af.database.list('/events/' + eventId + "/players/" + playerId);
+    return this.af.database.object('/events/' + eventId + "/players/" + playerId);
   }
 
   getPlayers(){

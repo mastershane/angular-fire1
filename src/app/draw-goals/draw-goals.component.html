@@ -1,0 +1,7 @@
+<ul>
+  <li *ngFor="let pg of privateGoals">
+    {{pg.text}}
+    <input type="checkbox" [(ngModel)]="pg.keep"> 
+  </li>
+</ul>
+<button (click)="save()">Save</button>

@@ -32,7 +32,9 @@ export class EventService {
         var text = this.replaceText(pg.name || pg.text, eventPlayersNames);
         goalRef.set({
           isComplete:false,
-          text:text
+          text:text,
+          isDrawn: false,
+          sequence:Math.floor(Math.random() * (100))
         })
       })
     })
@@ -64,6 +66,31 @@ export class EventService {
     this.generateSecretGoals(eventId);
     //store initialization date.
   }
+
+  
+  drawPrivateGoals(playerId:string, eventId: string){
+    //assign 3 goals to the player.  They can choose to discard after seeing them.
+      var privateGoals = this.af.database.list('/events/' + eventId + "/private-goals", {
+        query: {
+          orderByChild: 'sequence',
+          limitToFirst:3
+        }
+      });
+      return privateGoals;
+  }
+  discardPrivateGoal(privateGoalId : string, playerId: string, eventId: string){
+    //remove private goal from player.
+    var playerList = this.af.database.object('/events/' + eventId +"/players/" + playerId + "/private-goals/" + privateGoalId).remove();
+    var eventPG = this.af.database.object('/events/' + eventId + "/private-goals/" + privateGoalId);
+    eventPG.take(1).subscribe(g => {
+      g.isDrawn = false;
+      g.sequence = g.sequence -900//put on bottom of deck basically. Maybe just get the max sequence and add 1.
+      eventPG.set(g);
+    });
+  }
+
+
+
 
   //need method to lock event.
 
