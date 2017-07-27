@@ -13,21 +13,17 @@ import { EventPlayerVm } from "app/models/eventPlayer";
 export class LeaderBoardComponent implements OnInit {
 
   players: Observable<any>;
-  playersSrc: Observable<any>;
-  thePlayer;
-  constructor(private ps : PlayersService) {
-    this.players = ps.getEventPlayers("event1");
-    this.playersSrc = ps.getPlayers();
-    this.thePlayer = ps.getPlayer("Josh")
+  eventId: string;
+  selectedPlayer:EventPlayerVm
+
+  constructor(private ps : PlayersService, private af : AngularFire) {
+    af.database.object('/active-event').subscribe(value => {
+      this.eventId = value.$value;
+      this.players = ps.getEventPlayers(this.eventId);        
+    });
    }
 
-   addPlayer(playerName :string){
-      this.ps.addEventPlayer(playerName, "event1");
-   }
 
-   updatePlayerName(playerId : string, playerName: string){
-     this.ps.updatePlayerName(playerId, playerName);
-   }
 
   ngOnInit() {  }
 

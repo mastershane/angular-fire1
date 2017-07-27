@@ -17,11 +17,8 @@ export class EventPlayerVm {
     //maybe rename to completedPublicGoals.
     publicGoals: GoalVm[];
 
-    getCompletedPrivateGoals(){
-        return _.where(this.privateGoals, g => g.isComplete);
-    }
-    getActivePrivateGoals(){
-        return _.where(this.privateGoals, g => g.isComplete);
+    getCompletedGoals(){
+        return _.where(this.privateGoals, {isComplete : true}).map(g => g.toString()).concat(this.publicGoals.map(g => g.toString()));
     }
 }
 
@@ -30,6 +27,9 @@ export class GoalVm{
     pointValue: number;
     isComplete: boolean;
     id: string;
+    toString(){
+        return this.pointValue + " " + this.text;
+    }
 }
 
 

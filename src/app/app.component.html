@@ -1,8 +1,14 @@
 <div> {{ (af.auth | async)?.uid }} </div>
 <button (click)="login()">Login</button>
 <button (click)="logout()">Logout</button>
+<span *ngIf="showAdmin">
+    <a routerLink="/players">Players</a>
+    <a routerLink="/publicgoals">Public Goals</a>
+    <a routerLink="/privategoals">Private Goals</a>
+    <a routerLink="/events">Events</a>
+</span>
 <br/>
-<nav>
+<nav *ngIf="(af.auth | async)?.uid">
     <ul class="nav nav-tabs">
         <li routerLink="/mygoals" routerLinkActive="active">
             <a >My Goals</a>
@@ -10,17 +16,8 @@
         <li routerLink="/eventpublicgoals" routerLinkActive="active">
             <a>Event Public Goals</a>
         </li>
-        <li routerLink="/players" routerLinkActive="active">
-            <a >Players</a>
-        </li>
-        <li routerLink="/publicgoals" routerLinkActive="active">
-            <a >Public Goals</a>
-        </li>
-        <li routerLink="/privategoals" routerLinkActive="active">
-            <a>Private Goals</a>
-        </li>
-        <li routerLink="/events" routerLinkActive="active">
-            <a>Events</a>
+        <li routerLink="/leaderboard" routerLinkActive="active">
+            <a >Leader Board</a>
         </li>
     </ul>    
 </nav>

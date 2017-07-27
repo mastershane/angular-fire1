@@ -46,6 +46,9 @@ export class EventComponent implements OnInit {
   initializeEvent(){
     this.es.initializeEvent(this.eventId);
   }
+  setAsActiveEvent(){
+    this.af.database.object("/active-event").set(this.eventId);
+  }
 
   save(newName : string){
     this.event.set({name:newName});

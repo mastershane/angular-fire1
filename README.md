@@ -32,10 +32,9 @@ To get more help on the `angular-cli` use `ng help` or go check out the [Angular
 
 Todo:
     Create New player (and event player) when user logs in.
-    Admin level access on players.
-    Only show event goals and player edit pages in admin.
-    Make the leader board read only.
     Style Everything.
+    Add validation to prevent mis-clicks
+    Add way to regenerate points from goals: in case things get out of sync
 
 Database structure
 

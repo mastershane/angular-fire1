@@ -2,19 +2,28 @@
   <div class="jumbotron">
     <h1>Leader Board</h1>
   </div>
-
-  <ul>
-    <li *ngFor="let player of players | async">
-      {{player | json}}
-        <input  type="text" #updatetext [value]="player.player?.name" />
-        <button (click)="updatePlayerName(player.eventPlayer.$key, updatetext.value)">Update</button>
-    </li>
-  </ul>
-  <ul>
-    <li *ngFor="let player of playersSrc | async">
-      {{player | json}}
-    </li>
-  </ul>
-  <input type="text" #newPlayer />
-  <button (click)="addPlayer(newPlayer.value)">Add</button>
+  <table>
+    <thead>
+      <tr>
+        <td>Player</td>
+        <td>Score<td>
+        <td>View</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let player of players | async">
+        <td>{{player.name}}</td>
+        <td>{{player.score}}</td>
+        <td><button (click)="selectedPlayer = player">View</button></td>
+      </tr>
+    </tbody>
+  </table>
+   <div *ngIf="selectedPlayer">
+    <h2>{{selectedPlayer.name}}</h2>
+     <ul>
+      <li *ngFor="let goal of selectedPlayer.getCompletedGoals()">
+        {{goal}}
+      </li>
+    </ul> 
+  </div> 
 </div>
