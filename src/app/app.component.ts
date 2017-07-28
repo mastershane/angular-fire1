@@ -14,13 +14,18 @@ export class AppComponent {
 
   showAdmin : boolean;
 
-  constructor(private af: AngularFire, private router : Router) {
+  constructor(private af: AngularFire, private router : Router, ps :PlayersService) {
     af.auth.subscribe(auth => {
       this.showAdmin = false;
       if(auth.uid){
         this.af.database.object('/user-player/' + auth.uid).take(1).subscribe(up => {
           if(!up.$value){
-            //bring user to player edit page
+            var playerId = af.database.list("/players/").push({name: "New Player"}).key;
+            af.database.object('/user-player/' + auth.uid).set(playerId);
+            af.database.object("/active-event").take(1).subscribe(activeEvent => {
+              ps.addPlayerToEvent(playerId, activeEvent.$value);
+              this.router.navigate(['/myprofile'])
+            });            
           }else{
             this.af.database.object('/players/' + up.$value).take(1).subscribe(player =>{
               this.showAdmin = player.isAdmin;

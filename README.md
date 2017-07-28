@@ -31,7 +31,6 @@ Run `ng github-pages:deploy` to deploy to GitHub Pages.
 To get more help on the `angular-cli` use `ng help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 Todo:
-    Create New player (and event player) when user logs in.
     Style Everything.
     Add validation to prevent mis-clicks
     Add way to regenerate points from goals: in case things get out of sync
