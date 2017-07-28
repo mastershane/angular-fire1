@@ -4,9 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { AngularFireModule, AuthProviders, AuthMethods } from 'angularfire2';
-import { ItemComponent } from './item/item.component';
-import { ItemsComponent } from './items/items.component';
-import { ItemsQueryComponent } from './items-query/items-query.component';
 import { LeaderBoardComponent } from './leader-board/leader-board.component';
 import { RouterModule, Routes } from '@angular/router';
 import { PublicGoalsComponent } from './public-goals/public-goals.component';
@@ -37,15 +34,6 @@ const myFirebaseAuthConfig = {
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/leaderboard', pathMatch: 'full' },
-  { 
-    path: 'item', 
-    component: ItemComponent 
-  },
-  {
-    path: 'items',
-    component: ItemsComponent,
-    data: { title: 'Heroes List' }
-  },
   {
     path: 'leaderboard',
     component: LeaderBoardComponent,
@@ -101,9 +89,6 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     AppComponent,
-    ItemComponent,
-    ItemsComponent,
-    ItemsQueryComponent,
     LeaderBoardComponent,
     PublicGoalsComponent,
     EventsComponent,
