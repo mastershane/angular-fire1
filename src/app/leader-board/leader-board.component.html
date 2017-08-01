@@ -11,10 +11,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let player of players | async">
+      <tr *ngFor="let player of players | async | OrderByDesc:'score'">
         <td>{{player.name}}</td>
         <td>{{player.score}}</td>
-        <td><button (click)="selectedPlayer = player">View</button></td>
+        <td><button class="btn btn-primary" (click)="selectedPlayer = player">View</button></td>
       </tr>
     </tbody>
   </table>

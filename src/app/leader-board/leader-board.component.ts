@@ -3,12 +3,13 @@ import { PlayersService } from '../players.service';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { Observable } from "rxjs/Observable";
 import { EventPlayerVm } from "app/models/eventPlayer";
+import {ArraySortPipe } from "app/pipes/array-sort-pipe";
 
 @Component({
   selector: 'app-leader-board',
   templateUrl: './leader-board.component.html',
   styleUrls: ['./leader-board.component.css'],
-  providers:[PlayersService]
+  providers:[PlayersService],
 })
 export class LeaderBoardComponent implements OnInit {
 

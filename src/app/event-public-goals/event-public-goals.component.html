@@ -3,11 +3,15 @@
     <h1>The People's Goals</h1>
   </div>
   <ul class="list-group">
-    <li class="list-group-item" *ngFor="let goal of publicGoals | async ">
-      {{goal.text}}
-      <span class="badge">{{goal.pointValue}}</span>
-      <span [hidden]="!goal.isComplete">Completed By: {{goal.completedPlayerName}}</span>
-      <button class="btn" *ngIf="!goal.isComplete" (click)="setGoalToComplete(goal)">I did it. Give me the points</button>
+    <li class="list-group-item" *ngFor="let goal of publicGoals | async " (click)="goal.showActions = !goal.showActions;">
+      <span class="text-success"><strong>{{goal.pointValue}}</strong></span>
+      <span>{{goal.text}}</span>       
+      <span [hidden]="!goal.isComplete"><em> Completed By: {{goal.completedPlayerName}} </em></span>
+      <span *ngIf="!goal.isComplete && !goal.showActions" class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <div *ngIf="!goal.isComplete && goal.showActions" >
+        <button class="btn" (click)="setGoalToComplete(goal)">I did it. Give me the points</button>
+        <button class="btn">Cancel</button>
+      </div>     
     </li>
   </ul>
 </div> 

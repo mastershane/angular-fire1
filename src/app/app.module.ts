@@ -15,6 +15,7 @@ import { MyGoalsComponent } from './my-goals/my-goals.component';
 import { DrawGoalsComponent } from './draw-goals/draw-goals.component';
 import { EventPublicGoalsComponent } from './event-public-goals/event-public-goals.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
+import {ArraySortPipe } from "app/pipes/array-sort-pipe";
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -98,7 +99,8 @@ const appRoutes: Routes = [
     MyGoalsComponent,
     DrawGoalsComponent,
     EventPublicGoalsComponent,
-    MyProfileComponent
+    MyProfileComponent,
+    ArraySortPipe
   ],
   imports: [
     BrowserModule,
