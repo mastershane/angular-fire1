@@ -4,6 +4,7 @@ import { PlayersService } from '../players.service';
 import { EventService } from '../event.service';
 import { AngularFire, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2';
 import { Observable } from "rxjs/Observable";
+import * as _ from 'underscore';
 
 @Component({
   selector: 'app-draw-goals',
@@ -17,6 +18,7 @@ export class DrawGoalsComponent implements OnInit {
   userId:string;
   playerId: string;
   activeEvent : FirebaseObjectObservable<any>;
+  validationMessage:string;
   constructor(private af : AngularFire, ps : PlayersService, private es: EventService, private router : Router) {
     this.activeEvent = af.database.object('/active-event');
     this.activeEvent.subscribe(value => {
@@ -42,6 +44,11 @@ export class DrawGoalsComponent implements OnInit {
   }
 
   save(){
+    this.validationMessage = "";
+    if(_.where(this.privateGoals, {keep : true}).length < 2){
+      this.validationMessage = "You must keep at least 2 goals."
+      return;
+    }
     //set inlimbo to false on goals in hand.
     this.privateGoals.forEach(pg => {
       if(pg.keep){

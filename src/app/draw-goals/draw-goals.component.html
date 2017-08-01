@@ -1,7 +1,18 @@
-<ul>
-  <li *ngFor="let pg of privateGoals">
-    {{pg.text}}
-    <input type="checkbox" [(ngModel)]="pg.keep"> 
-  </li>
-</ul>
-<button (click)="save()">Save</button>
+<div class="container">
+  <div class="jumbotron">
+    <h1>Draw Goals</h1>
+  </div>
+  <div *ngIf="validationMessage" class="alert alert-warning">
+    {{validationMessage}}
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let pg of privateGoals">
+      <input type="checkbox" [(ngModel)]="pg.keep"> 
+      <span (click)="pg.keep = !pg.keep">{{pg.text}}</span>
+      <span class="text-success"><strong>{{pg.pointValue}}</strong></span>
+    </li>
+  </ul>
+  <button class="btn btn-primary" (click)="save()">Save</button>
+</div>
+
+

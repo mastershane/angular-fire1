@@ -2,12 +2,12 @@
   <div class="jumbotron">
     <h1>Leader Board</h1>
   </div>
-  <table>
+  <table class="table">
     <thead>
       <tr>
         <td>Player</td>
         <td>Score<td>
-        <td>View</td>
+        <td></td>
       </tr>
     </thead>
     <tbody>
@@ -19,7 +19,7 @@
     </tbody>
   </table>
    <div *ngIf="selectedPlayer">
-    <h2>{{selectedPlayer.name}}</h2>
+    <h2>{{selectedPlayer.name}} <small>{{selectedPlayer.player.tagline}}</small></h2>
      <ul>
       <li *ngFor="let goal of selectedPlayer.getCompletedGoals()">
         {{goal}}

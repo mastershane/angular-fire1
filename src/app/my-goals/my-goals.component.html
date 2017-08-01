@@ -1,16 +1,29 @@
- <h2>Player: {{(eventPlayer |async )?.name}} Score: {{(eventPlayer |async )?.score}}</h2>
- <ul>
-  <li *ngFor="let goal of (eventPlayer | async )?.privateGoals">
-    {{goal.text}} Points: {{goal.pointValue}}
-    <button [hidden]="goal.isComplete" (click)="setGoalToComplete(goal)">Complete</button>
-  </li>
-</ul>
+<div class="container">
+  <div class="jumbotron">
+    <h1>My <i>Secret</i> Goals</h1>
+  </div>
+  <h2>{{(eventPlayer |async )?.name}} <small>{{(eventPlayer |async )?.score}}</small></h2>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let goal of (eventPlayer | async )?.privateGoals" (click)="goal.showActions = !goal.showActions;">
+      <span class="text-success"><strong>{{goal.pointValue}}</strong></span>
+      <span>{{goal.text}}</span>       
+      <span *ngIf="goal.isComplete" class="glyphicon glyphicon-ok pull-right text-success" aria-hidden="true"></span>
+      <span *ngIf="!goal.isComplete && !goal.showActions" class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+      <div *ngIf="!goal.isComplete && goal.showActions" >
+        <button class="btn" (click)="setGoalToComplete(goal); $event.stopPropagation()">Complete</button>
+        <button class="btn">Cancel</button>
+      </div>      
+    </li>
+  </ul>
+  <a class="btn btn-primary" routerLink="/drawgoals" >Draw Goals</a>
+</div>
 
-<p>
+
+<!-- <p>
   {{activeEvent | async | json}}
 </p>
-<pre>{{eventPlayer | async | json}}</pre>
-<a routerLink="/drawgoals" >Draw Goals</a>
+<pre>{{eventPlayer | async | json}}</pre> -->
+
 
 <!-- <p>
   {{activeEvent | async | json}}

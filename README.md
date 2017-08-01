@@ -34,6 +34,15 @@ Todo:
     Style Everything.
     Add validation to prevent mis-clicks
     Add way to regenerate points from goals: in case things get out of sync
+    Style Draw goals
+    make log out footer look better.
+    Make sure that only 1 goal can be discarded.
+    Order private goals by status
+    Order leader board by points.
+    Do better with the goals deck.
+    Maybe keep track of time completed.
+    Do the styling of private goals on the public goals page.
+    Subtract points for uncompleted goals on event end.
 
 Database structure
 

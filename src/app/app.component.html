@@ -1,27 +1,30 @@
 <!-- <div> {{ (af.auth | async)?.uid }} </div> -->
-<button (click)="login()">Login</button>
-<button (click)="logout()">Logout</button>
-<span *ngIf="showAdmin">
-    <a routerLink="/players">Players</a>
-    <a routerLink="/publicgoals">Public Goals</a>
-    <a routerLink="/privategoals">Private Goals</a>
-    <a routerLink="/events">Events</a>
-</span>
-<br/>
 <nav *ngIf="(af.auth | async)?.uid">
-    <ul class="nav nav-tabs">
+    <ul class="nav nav-pills">
         <li routerLink="/mygoals" routerLinkActive="active">
             <a >My Goals</a>
         </li>
         <li routerLink="/eventpublicgoals" routerLinkActive="active">
-            <a>Event Public Goals</a>
+            <a>Public Goals</a>
         </li>
         <li routerLink="/leaderboard" routerLinkActive="active">
             <a>Leader Board</a>
         </li>
         <li routerLink="/myprofile" routerLinkActive="active">
-            <a>My Profile</a>
+            <a>Profile</a>
         </li>
     </ul>    
 </nav>
 <router-outlet></router-outlet>
+<br/>
+<div>
+    <button *ngIf="!(af.auth | async)?.uid" (click)="login()">Login</button>
+    <button *ngIf="(af.auth | async)?.uid"  (click)="logout()">Logout</button>
+    <span *ngIf="showAdmin">
+        <a routerLink="/players">Players</a>
+        <a routerLink="/publicgoals">Public Goals</a>
+        <a routerLink="/privategoals">Private Goals</a>
+        <a routerLink="/events">Events</a>
+    </span>
+</div>
+
