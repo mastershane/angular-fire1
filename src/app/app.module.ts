@@ -16,6 +16,7 @@ import { DrawGoalsComponent } from './draw-goals/draw-goals.component';
 import { EventPublicGoalsComponent } from './event-public-goals/event-public-goals.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import {ArraySortPipe } from "app/pipes/array-sort-pipe";
+import {ActiveEventComponent} from './active-event/active-event.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -85,6 +86,11 @@ const appRoutes: Routes = [
     component: MyProfileComponent,
     data: {title: 'My Profile'}
   }, 
+  {
+    path: 'activeevent',
+    component: ActiveEventComponent,
+    data: {title: 'Event'}
+  }, 
 ];
 
 @NgModule({
@@ -100,6 +106,7 @@ const appRoutes: Routes = [
     DrawGoalsComponent,
     EventPublicGoalsComponent,
     MyProfileComponent,
+    ActiveEventComponent,
     ArraySortPipe
   ],
   imports: [

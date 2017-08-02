@@ -140,7 +140,4 @@ export class EventService {
       publicGoal.set(g);
     });
   }
-
-  //need method to lock event.
-
 }

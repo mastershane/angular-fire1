@@ -20,7 +20,7 @@ export class LeaderBoardComponent implements OnInit {
   constructor(private ps : PlayersService, private af : AngularFire) {
     af.database.object('/active-event').subscribe(value => {
       this.eventId = value.$value;
-      this.players = ps.getEventPlayers(this.eventId);        
+      this.players = ps.getEventPlayersWithAllGoals(this.eventId);        
     });
    }
 

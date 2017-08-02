@@ -8,13 +8,19 @@ export class PlayersService {
 
   constructor(private af: AngularFire) { }
 
-  getEventPlayers(eventId : string){
+  getEventPlayersWithAllGoals(eventId:string){
     return this._getEventPlayers(eventId).map(eventPlayers =>{
-      return eventPlayers.map(ep => this._getEventPlayerVmForEventPlayer(ep, eventId));
+      return eventPlayers.map(ep => this._getEventPlayerVmForEventPlayer(ep, eventId, true));
     });
   }
 
-  _getEventPlayerVmForEventPlayer(eventPlayer, eventId: string){
+  getEventPlayers(eventId : string){
+    return this._getEventPlayers(eventId).map(eventPlayers =>{
+      return eventPlayers.map(ep => this._getEventPlayerVmForEventPlayer(ep, eventId, false));
+    });
+  }
+
+  _getEventPlayerVmForEventPlayer(eventPlayer, eventId: string, includeAllGoals:boolean){
       var eventPlayerVm = new EventPlayerVm()
       eventPlayerVm.eventPlayer = eventPlayer;
       eventPlayerVm.score = eventPlayer.score;
@@ -27,7 +33,7 @@ export class PlayersService {
         {
             var playerGoal =  eventPlayer["private-goals"][key];
             //don't show limbo goals in the ui.
-            if(playerGoal.inLimbo){
+            if(!includeAllGoals && playerGoal.inLimbo){
               return;
             }
             //This makes round trip for each player goal I think.  This could be faster if we just got them all maybe??
@@ -35,15 +41,14 @@ export class PlayersService {
               let goalVm = new GoalVm;
               goalVm.text = eventGoal.text;
               goalVm.isComplete = playerGoal.isComplete;
-              goalVm.pointValue = eventGoal.pointValue;
+              goalVm.pointValue = Number.parseInt(eventGoal.pointValue);
               goalVm.id = key;
               eventPlayerVm.privateGoals.push(goalVm);
             })
         });
       }
       //These arent used in the UI so we aren't getting them for now.
-      var getPublicGoals : boolean = false;
-      if(getPublicGoals){
+      if(includeAllGoals){
         //these are really only the public goals that are complete.
         if(eventPlayer["public-goals"] != null){
           Object.keys(eventPlayer["public-goals"]).forEach(key =>
@@ -54,7 +59,7 @@ export class PlayersService {
                 let goalVm = new GoalVm;
                 goalVm.text = eventGoal.text;
                 goalVm.isComplete = playerGoal.isComplete;
-                goalVm.pointValue = eventGoal.pointValue;
+                goalVm.pointValue =  Number.parseInt(eventGoal.pointValue);
                 goalVm.id = key;
                 eventPlayerVm.publicGoals.push(goalVm);
               })
@@ -65,7 +70,7 @@ export class PlayersService {
   }
 
   getEventPlayer(eventId : string, playerId: string){
-    return this._getEventPlayer(eventId, playerId).map(ep => this._getEventPlayerVmForEventPlayer(ep, eventId))
+    return this._getEventPlayer(eventId, playerId).map(ep => this._getEventPlayerVmForEventPlayer(ep, eventId, false))
   }
 
   addPlayer(name : string){
