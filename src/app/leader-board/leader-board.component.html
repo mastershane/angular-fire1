@@ -21,6 +21,7 @@
    <div *ngIf="selectedPlayer">
     <h2>{{selectedPlayer.name}} <small>{{selectedPlayer.player.tagline}}</small></h2>
      <ul>
+      <li>{{selectedPlayer.eventPlayer.drinkCount || 0}} dranks drunk.</li>
       <li *ngFor="let goal of selectedPlayer.getCompletedGoals()">
         {{goal}}
       </li>

@@ -12,28 +12,35 @@ import { Observable } from "rxjs/Observable";
 export class MyGoalsComponent implements OnInit {
 
   eventPlayer: Observable<any>;
-  currentEventId:string;
+  eventId:string;
   userId:string;
   activeEvent : FirebaseObjectObservable<any>;
   playerId:string;
 
-  constructor(af : AngularFire, ps : PlayersService, private es : EventService) {
+  constructor(af : AngularFire, private ps : PlayersService, private es : EventService) {
     this.activeEvent = af.database.object('/active-event');
     this.activeEvent.subscribe(value => {
-      this.currentEventId = value.$value;
+      this.eventId = value.$value;
       af.auth.subscribe(auth =>{
         this.userId = auth.uid;
         af.database.object('/user-player/' + this.userId).subscribe(playerId => {
           this.playerId = playerId.$value;
-          this.eventPlayer = ps.getEventPlayer(this.currentEventId, this.playerId )
+          this.eventPlayer = ps.getEventPlayer(this.eventId, this.playerId )
         })        
       });
     });
-
   }
 
   setGoalToComplete(goal){
-    this.es.setPrivateGoalToComplete(goal.id, this.playerId, this.currentEventId, Number.parseInt(goal.pointValue));
+    this.es.setPrivateGoalToComplete(goal.id, this.playerId, this.eventId, Number.parseInt(goal.pointValue));
+  }
+
+  addBeerPoint(){
+    this.ps.addBeerPoint(this.playerId, this.eventId);
+  }
+
+  removeBeerPoint(){
+    this.ps.removeBeerPoint(this.playerId, this.eventId);
   }
 
   ngOnInit() {

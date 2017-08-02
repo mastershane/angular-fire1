@@ -26,6 +26,10 @@ export class PlayersService {
         Object.keys(eventPlayer["private-goals"]).forEach(key =>
         {
             var playerGoal =  eventPlayer["private-goals"][key];
+            //don't show limbo goals in the ui.
+            if(playerGoal.inLimbo){
+              return;
+            }
             //This makes round trip for each player goal I think.  This could be faster if we just got them all maybe??
             this.af.database.object('/events/' + eventId + '/private-goals/' + key).subscribe(eventGoal =>{
               let goalVm = new GoalVm;
@@ -37,23 +41,26 @@ export class PlayersService {
             })
         });
       }
-      //these are really only the public goals that are complete.
-      if(eventPlayer["public-goals"] != null){
-        Object.keys(eventPlayer["public-goals"]).forEach(key =>
-        {
-            var playerGoal =  eventPlayer["public-goals"][key];
-            //This makes round trip for each player goal I think.  This might be faster if we just got them all.
-            this.af.database.object('/events/' + eventId + '/public-goals/' + key).subscribe(eventGoal =>{
-              let goalVm = new GoalVm;
-              goalVm.text = eventGoal.text;
-              goalVm.isComplete = playerGoal.isComplete;
-              goalVm.pointValue = eventGoal.pointValue;
-              goalVm.id = key;
-              eventPlayerVm.publicGoals.push(goalVm);
-            })
-        });
+      //These arent used in the UI so we aren't getting them for now.
+      var getPublicGoals : boolean = false;
+      if(getPublicGoals){
+        //these are really only the public goals that are complete.
+        if(eventPlayer["public-goals"] != null){
+          Object.keys(eventPlayer["public-goals"]).forEach(key =>
+          {
+              var playerGoal =  eventPlayer["public-goals"][key];
+              //This makes round trip for each player goal I think.  This might be faster if we just got them all.
+              this.af.database.object('/events/' + eventId + '/public-goals/' + key).subscribe(eventGoal =>{
+                let goalVm = new GoalVm;
+                goalVm.text = eventGoal.text;
+                goalVm.isComplete = playerGoal.isComplete;
+                goalVm.pointValue = eventGoal.pointValue;
+                goalVm.id = key;
+                eventPlayerVm.publicGoals.push(goalVm);
+              })
+          });
+        }
       }
-
       return eventPlayerVm;
   }
 
@@ -97,6 +104,31 @@ export class PlayersService {
 
   updatePlayerName(playerId: string, name : string){
     this.getPlayer(playerId).update({ name: name });
+  }
+
+  addBeerPoint(playerId:string, eventId:string){
+    var drinksRef = this.af.database.object('/events/' + eventId + "/players/" + playerId+'/drinkCount');
+    drinksRef.take(1).subscribe(v => {
+      var value = v.$value || 0;
+      drinksRef.set(value + 1);
+    });
+    var pointsRef = this.af.database.object('/events/' + eventId + "/players/" + playerId+'/score');
+    pointsRef.take(1).subscribe(v => {
+      var value = v.$value || 0;
+      pointsRef.set(value + 1);
+    });
+  }
+  removeBeerPoint(playerId:string, eventId:string){
+    var drinksRef = this.af.database.object('/events/' + eventId + "/players/" + playerId+'/drinkCount')
+    drinksRef.take(1).subscribe(v => {
+      var value = v.$value || 0;
+      drinksRef.set(value - 1);
+    });
+    var pointsRef = this.af.database.object('/events/' + eventId + "/players/" + playerId+'/score');
+    pointsRef.take(1).subscribe(v => {
+      var value = v.$value || 0;
+      pointsRef.set(value - 1);
+    });
   }
 
 

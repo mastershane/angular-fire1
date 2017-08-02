@@ -2,7 +2,13 @@
   <div class="jumbotron">
     <h1>My <i>Secret</i> Goals</h1>
   </div>
-  <h2>{{(eventPlayer |async )?.name}} <small>{{(eventPlayer |async )?.score}}</small></h2>
+  <h2>{{(eventPlayer | async )?.name}} <small>{{(eventPlayer |async )?.score}}</small></h2>
+  <h3>
+    <button class="btn btn-primary" (click)="removeBeerPoint()">-</button>
+    {{(eventPlayer | async )?.eventPlayer?.drinkCount || 0}} 
+    <button class="btn btn-primary" (click)="addBeerPoint()">+</button>
+    beers deep.
+  </h3>
   <ul class="list-group">
     <li class="list-group-item" *ngFor="let goal of (eventPlayer | async )?.privateGoals" (click)="goal.showActions = !goal.showActions;">
       <span class="text-success"><strong>{{goal.pointValue}}</strong></span>

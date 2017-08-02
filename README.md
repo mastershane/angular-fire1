@@ -31,18 +31,16 @@ Run `ng github-pages:deploy` to deploy to GitHub Pages.
 To get more help on the `angular-cli` use `ng help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 Todo:
-    Style Everything.
-    Add validation to prevent mis-clicks
     Add way to regenerate points from goals: in case things get out of sync
-    Style Draw goals
-    make log out footer look better.
-    Make sure that only 1 goal can be discarded.
     Order private goals by status
-    Order leader board by points.
-    Do better with the goals deck.
-    Maybe keep track of time completed.
-    Do the styling of private goals on the public goals page.
+    Do better with the goals deck.    
     Subtract points for uncompleted goals on event end.
+    Make the event read only after it has been completed.
+    
+
+Todo Maybe
+    make log out footer look better.
+    Maybe keep track of time completed.
 
 Database structure
 
