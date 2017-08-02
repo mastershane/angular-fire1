@@ -70,7 +70,17 @@ export class EventService {
     //store initialization date.
   }
 
-  
+  getLimboGoals(playerId:string, eventId: string){
+    var privateGoals = this.af.database.list('/events/' + eventId +"/players/" + playerId + "/private-goals/", 
+    {
+      query:{
+        orderByChild: 'inLimbo',
+        equalTo:true
+      }
+    });
+    return privateGoals;
+  }
+
   drawPrivateGoals(playerId:string, eventId: string){
     //assign 3 goals to the player.  They can choose to discard after seeing them.
       var privateGoals = this.af.database.list('/events/' + eventId + "/private-goals", {

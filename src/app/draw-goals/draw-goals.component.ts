@@ -14,7 +14,7 @@ import * as _ from 'underscore';
 export class DrawGoalsComponent implements OnInit {
 
   privateGoals: any[];
-  currentEventId:string;
+  eventId:string;
   userId:string;
   playerId: string;
   activeEvent : FirebaseObjectObservable<any>;
@@ -22,24 +22,39 @@ export class DrawGoalsComponent implements OnInit {
   constructor(private af : AngularFire, ps : PlayersService, private es: EventService, private router : Router) {
     this.activeEvent = af.database.object('/active-event');
     this.activeEvent.subscribe(value => {
-      this.currentEventId = value.$value;
+      this.eventId = value.$value;
       af.auth.subscribe(auth =>{
         this.userId = auth.uid;
         af.database.object('/user-player/' + this.userId).subscribe(playerId => {
           this.playerId = playerId.$value
-          es.drawPrivateGoals(this.playerId, this.currentEventId).take(1).subscribe(privateGoals => {
-            this.privateGoals = privateGoals;
-            var goalsRef = af.database.list('/events/' + this.currentEventId + "/private-goals");    
-            privateGoals.forEach(g => {            
-                var playerGoal = af.database.object('/events/' + this.currentEventId +"/players/" + this.playerId + "/private-goals/" + g.$key);
-                playerGoal.set({isComplete : false, inLimbo: true });
-                g.isDrawn = true;
-                g.sequence = g.sequence + 1000;
-                goalsRef.update(g.$key, g);
-            })  
-          });
+          this.drawGoals(this.playerId, this.eventId)
         })        
       });
+    });
+  }
+
+  private drawGoals(playerId: string, eventId:string){
+    this.es.getLimboGoals(playerId, eventId).take(1).subscribe(playerPrivateGoals => {
+      if(playerPrivateGoals && playerPrivateGoals.length){
+        //The player hasn't committed to their previous goals, draw those.
+        this.privateGoals = [];
+        playerPrivateGoals.forEach( ppg=>{
+          this.af.database.object('/events/' + eventId + '/private-goals/' + ppg.$key).take(1).subscribe(pg => this.privateGoals.push(pg));
+        });
+      }else{
+        //Actually draw them from the deck.
+        this.es.drawPrivateGoals(playerId, eventId).take(1).subscribe(privateGoals => {
+          this.privateGoals = privateGoals;
+          var goalsRef = this.af.database.list('/events/' + eventId + "/private-goals");    
+          privateGoals.forEach(g => {            
+              var playerGoal = this.af.database.object('/events/' + eventId +"/players/" + playerId + "/private-goals/" + g.$key);
+              playerGoal.set({isComplete : false, inLimbo: true });
+              g.isDrawn = true;
+              g.sequence = g.sequence + 1000;
+              goalsRef.update(g.$key, g);
+          })  
+        });
+      }
     });
   }
 
@@ -52,9 +67,9 @@ export class DrawGoalsComponent implements OnInit {
     //set inlimbo to false on goals in hand.
     this.privateGoals.forEach(pg => {
       if(pg.keep){
-        this.af.database.object('/events/' + this.currentEventId +"/players/" + this.playerId + "/private-goals/" + pg.$key+ '/inLimbo').remove();
+        this.af.database.object('/events/' + this.eventId +"/players/" + this.playerId + "/private-goals/" + pg.$key+ '/inLimbo').remove();
       }else{
-        this.es.discardPrivateGoal(pg.$key, this.playerId, this.currentEventId);
+        this.es.discardPrivateGoal(pg.$key, this.playerId, this.eventId);
       }
     });
     this.router.navigate(['/mygoals'])
