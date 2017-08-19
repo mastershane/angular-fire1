@@ -17,7 +17,7 @@ export class AppComponent {
   constructor(private af: AngularFire, private router : Router, ps :PlayersService) {
     af.auth.subscribe(auth => {
       this.showAdmin = false;
-      if(auth.uid){
+      if(auth && auth.uid){
         this.af.database.object('/user-player/' + auth.uid).take(1).subscribe(up => {
           if(!up.$value){
             var playerId = af.database.list("/players/").push({name: "New Player"}).key;
@@ -33,17 +33,10 @@ export class AppComponent {
           }
         });
       }else{
-        this.router.navigate(['/events'])
+        if(this.router.url !== '/myprofile'){
+          this.router.navigate(['/leaderboard']);
+        }
       }
     });
-  }
-
-  login(playerName : string) {
-    this.af.auth.login()
-  }
-
-  logout() {
-     this.af.auth.logout();
-     this.router.navigate(['/leaderboard'])
   }
 }

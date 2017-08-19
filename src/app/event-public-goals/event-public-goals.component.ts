@@ -25,10 +25,12 @@ export class EventPublicGoalsComponent implements OnInit {
     this.activeEvent.subscribe(value => {
       this.currentEventId = value.$value;
       af.auth.subscribe(auth =>{
-        this.userId = auth.uid;
-        af.database.object('/user-player/' + this.userId).subscribe(playerId => {
-          this.playerId = playerId.$value
-        });
+        if(auth && auth.uid){
+          this.userId = auth.uid;
+          af.database.object('/user-player/' + this.userId).subscribe(playerId => {
+            this.playerId = playerId.$value
+          });
+        }
       });
       this.publicGoals = this.es.getEventPublicGoalVms(this.currentEventId);        
     });

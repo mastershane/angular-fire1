@@ -97,7 +97,7 @@ export class EventService {
     var eventPG = this.af.database.object('/events/' + eventId + "/private-goals/" + privateGoalId);
     eventPG.take(1).subscribe(g => {
       g.isDrawn = false;
-      g.sequence = g.sequence -900//put on bottom of deck basically above the cards that are currently in peoples hands.
+      g.sequence = g.sequence -500//put on bottom of deck basically above the cards that are currently in peoples hands.
       eventPG.set(g);
     });
   }

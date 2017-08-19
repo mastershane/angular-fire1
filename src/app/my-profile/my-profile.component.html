@@ -2,17 +2,25 @@
   <div class="jumbotron">
     <h1>Profile</h1>
   </div>
-  <h1>{{(player| async)?.name}}</h1>
-  <h2>{{(player| async)?.tagline}}</h2>
-  <p>
-    <label for="name">Name:</label>
-    <input type="text" #newname />
-    <button (click)="saveName(newname.value)">Save</button>
-  </p>
-  <p>
-    <label for="tagline">Tagline</label>
-    <input type="text" #newTagline  />
-    <button (click)="saveTagline(newTagline.value)">Save</button>
+  <div *ngIf="(af.auth | async)?.uid">
+    <h1>{{(player| async)?.name}}</h1>
+    <h2>{{(player| async)?.tagline}}</h2>
+    <p>
+      <label for="name">Name:</label>
+      <input type="text" #newname />
+      <button (click)="saveName(newname.value)">Save</button>
+    </p>
+    <p>
+      <label for="tagline">Tagline</label>
+      <input type="text" #newTagline  />
+      <button (click)="saveTagline(newTagline.value)">Save</button>
+    </p>
+    <p>
+      <button (click)="logout()">Logout</button>
+    </p>
+  </div>
+  <p *ngIf="!(af.auth | async)?.uid">
+    <button (click)="login()">Login</button>
   </p>
 </div>
 

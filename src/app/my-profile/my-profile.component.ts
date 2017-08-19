@@ -15,11 +15,13 @@ export class MyProfileComponent implements OnInit {
   player:FirebaseObjectObservable<any>;
   constructor(private af : AngularFire, private ps : PlayersService) {
     af.auth.subscribe(auth =>{
-      this.userId = auth.uid;
-      af.database.object('/user-player/' + this.userId).subscribe(playerId => {
-        this.playerId = playerId.$value;
-        this.player = ps.getPlayer(this.playerId)
-      });        
+      if(auth && auth.uid){
+        this.userId = auth.uid;
+        af.database.object('/user-player/' + this.userId).subscribe(playerId => {
+          this.playerId = playerId.$value;
+          this.player = ps.getPlayer(this.playerId)
+        }); 
+      }       
     });
   }
 
@@ -29,6 +31,15 @@ export class MyProfileComponent implements OnInit {
 
   saveTagline(text:string){
     this.player.update({ tagline: text });
+  }
+
+  login(playerName : string) {
+    this.af.auth.login()
+  }
+
+  logout() {
+     this.af.auth.logout();
+     location.reload();
   }
 
   ngOnInit() {

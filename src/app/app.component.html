@@ -18,13 +18,12 @@
 <router-outlet></router-outlet>
 <br/>
 <div>
-    <button *ngIf="!(af.auth | async)?.uid" (click)="login()">Login</button>
-    <button *ngIf="(af.auth | async)?.uid"  (click)="logout()">Logout</button>
     <span *ngIf="showAdmin">
         <a routerLink="/players">Players</a>
         <a routerLink="/publicgoals">Public Goals</a>
         <a routerLink="/privategoals">Private Goals</a>
         <a routerLink="/events">Events</a>
+        <a routerLink="/activeevent">Active Event</a>
     </span>
 </div>
 

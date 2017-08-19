@@ -22,11 +22,13 @@ export class MyGoalsComponent implements OnInit {
     this.activeEvent.subscribe(value => {
       this.eventId = value.$value;
       af.auth.subscribe(auth =>{
-        this.userId = auth.uid;
-        af.database.object('/user-player/' + this.userId).subscribe(playerId => {
-          this.playerId = playerId.$value;
-          this.eventPlayer = ps.getEventPlayer(this.eventId, this.playerId )
-        })        
+        if(auth && auth.uid){
+          this.userId = auth.uid;
+          af.database.object('/user-player/' + this.userId).subscribe(playerId => {
+            this.playerId = playerId.$value;
+            this.eventPlayer = ps.getEventPlayer(this.eventId, this.playerId )
+          });
+        }               
       });
     });
   }

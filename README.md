@@ -31,11 +31,10 @@ Run `ng github-pages:deploy` to deploy to GitHub Pages.
 To get more help on the `angular-cli` use `ng help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 Todo:
-    Add way to regenerate points from goals: in case things get out of sync
     Order private goals by status
     Do better with the goals deck.    
-    Subtract points for uncompleted goals on event end.
     Make the event read only after it has been completed.
+    Fix log out thing on phones with multiple users.
     
 
 Todo Maybe
