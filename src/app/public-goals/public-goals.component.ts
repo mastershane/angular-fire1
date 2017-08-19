@@ -20,6 +20,14 @@ export class PublicGoalsComponent implements OnInit {
     this.publicGoals.push({name:name, points:points});
   }
 
+  updateGoal(key:string, text:string, pointValue:number){
+    this.publicGoals.update(key, {name : text, points:pointValue});
+  }
+
+  deleteGoal(key:string){
+    this.publicGoals.remove(key);
+  }
+
   ngOnInit() {
   }
 

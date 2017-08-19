@@ -17,6 +17,14 @@ export class PrivateGoalsComponent implements OnInit {
     this.privateGoals.push({name:name, points:points});
   }
 
+  updateGoal(key:string, text:string, pointValue:number){
+    this.privateGoals.update(key, {name : text, points:pointValue});
+  }
+
+  deleteGoal(key:string){
+    this.privateGoals.remove(key);
+  }
+
   ngOnInit() {
   }
 

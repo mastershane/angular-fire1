@@ -6,8 +6,8 @@
   <ul>
     <li *ngFor="let player of players | async">
       {{player | json}}
-        <input  type="text" #updatetext [value]="player.player?.name" />
-        <button (click)="updatePlayerName(player.eventPlayer.$key, updatetext.value)">Update</button>
+        <input  type="text" #updatetext [value]="player.name" />
+        <button (click)="updatePlayerName(player.$key, updatetext.value)">Update</button>
     </li>
   </ul>
   <input type="text" #newPlayer />

@@ -1,0 +1,9 @@
+.text-input{
+    width:500px;
+}
+.number-input{
+    width:50px;
+}
+.is-modified{
+    border-color:yellow;
+}
