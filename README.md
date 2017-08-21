@@ -34,11 +34,10 @@ Todo:
     Order private goals by status
     Do better with the goals deck.    
     Make the event read only after it has been completed.
-    Fix log out thing on phones with multiple users.
-    
+    fix the bug where player cannot complete goal if they aren't an event player.
+   
 
 Todo Maybe
-    make log out footer look better.
     Maybe keep track of time completed.
 
 Database structure

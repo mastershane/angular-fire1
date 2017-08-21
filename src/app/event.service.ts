@@ -26,12 +26,14 @@ export class EventService {
 
   generateSecretGoals(eventId : string){
     let eventPlayersNames = this.getEventPlayerNames();
+    let drinks = this.getDrinks();
+    let shots = this.getShots();
 
     //Todo: randomize order.  Can we do that with keys?  Maybe change this to an array without lookup names.
     this.af.database.list('/private-goals').subscribe(privateGoals => {
       return privateGoals.forEach(pg =>{
         var goalRef = this.af.database.object('/events/' + eventId + "/private-goals/" + pg.$key);
-        var text = this.replaceText(pg.name || pg.text, eventPlayersNames);
+        var text = this.replaceText(this.replaceText(this.replaceText(pg.name || pg.text, eventPlayersNames, '{Random_Player}'), drinks, '{Random_Drink}'), shots, '{Random_Shot}');
         goalRef.set({
           isComplete:false,
           text:text,
@@ -44,7 +46,7 @@ export class EventService {
   }
 
   //maybe this needs to go to its own engine.
-  replaceText(text : string, playerNames:string[]){    
+  replaceText(text : string, playerNames:string[], replacementKey){    
     var newText = text;
 
     function getRandomPlayerName(){
@@ -52,14 +54,22 @@ export class EventService {
       return playerNames[index];
     }
 
-    newText = newText.replace("{Random_Player}", getRandomPlayerName)
+    newText = newText.replace(new RegExp(replacementKey, 'g'), getRandomPlayerName)
 
     return newText;
   }
 
   //Todo: get this from the players in the event.
   getEventPlayerNames(){
-    return ['Shane','David','Josh', 'Luke','Cody', 'Carl', 'Jojo', 'Jake', 'Alex E', 'Alex L', 'Brian']
+    return ['Shane','David','Josh', 'Luke','Cody', 'Carl', 'Jojo', 'Jake', 'Alex E', 'Alex L', 'Brian'];
+  }
+
+  getShots(){
+    return ['Vodka', 'Vanilla Vodka', 'Tequila', 'Kringle Kream', 'Whiskey', 'Lake Water', 'Gin', 'Hennesy', 'Pickle Juice'];
+  }
+
+  getDrinks(){
+    return ['Hams', 'IPA', 'Milk', 'Orange Juice', 'Bud', 'Beer'];
   }
 
   initializeEvent(eventId :string){
